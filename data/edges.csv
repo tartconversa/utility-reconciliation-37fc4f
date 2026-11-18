@@ -6,3 +6,4 @@ waste_mp,waste,MP,recovery,0,30,1
 hp_device,HP,compressor,drive,0,45,1
 lp_user,LP,production,service,0,95,1
 mp_vent,MP,vent,unmetered,0,20,1
+lp_loss,LP,loss,unmetered,0,12,1
