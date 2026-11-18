@@ -1,0 +1,4 @@
+scenario,power_yuan_kwh,coal_yuan_t,power_kg_kwh,coal_kg_t
+central,0.7,900,0.58,2400
+low_grid,0.7,900,0.3,2400
+peak_price,1.1,900,0.58,2400

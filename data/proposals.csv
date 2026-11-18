@@ -1,0 +1,4 @@
+proposal_id,compressor_count,steam_reduction_t,electric_add_kwh,recovery_change_t
+A,1,8,1700,0
+B,1,5,1200,-3
+AB,2,13,2900,-7

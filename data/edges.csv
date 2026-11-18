@@ -1,0 +1,8 @@
+edge_id,source,target,kind,lower,upper,conversion
+boiler_hp,boiler,HP,steam,35,120,1
+hp_mp,HP,MP,backpressure,0,85,1
+mp_lp,MP,LP,letdown,0,80,1
+waste_mp,waste,MP,recovery,0,30,1
+hp_device,HP,compressor,drive,0,45,1
+lp_user,LP,production,service,0,95,1
+mp_vent,MP,vent,unmetered,0,20,1

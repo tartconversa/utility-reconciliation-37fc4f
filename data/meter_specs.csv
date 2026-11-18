@@ -1,0 +1,6 @@
+meter_id,edge_id,unit,bound,interval_h
+M1,boiler_hp,t,3,8
+M2,hp_mp,t,2,4
+M3,mp_lp,t,2,8
+M4,hp_device,t,1.5,4
+M5,lp_user,t,3,8

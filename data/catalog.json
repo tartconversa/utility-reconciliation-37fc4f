@@ -1,0 +1,407 @@
+{
+  "title": "汽改电收益的公用工程联合归因",
+  "encoding": "UTF-8",
+  "delimiter": ",",
+  "missing": "",
+  "synthetic": true,
+  "tables": [
+    {
+      "name": "edges",
+      "description": "公用工程连接与业务容量。",
+      "columns": [
+        {
+          "name": "edge_id",
+          "type": "string",
+          "description": "连接",
+          "nullable": true
+        },
+        {
+          "name": "source",
+          "type": "string",
+          "description": "上游",
+          "nullable": true
+        },
+        {
+          "name": "target",
+          "type": "string",
+          "description": "下游",
+          "nullable": true
+        },
+        {
+          "name": "kind",
+          "type": "string",
+          "description": "类型",
+          "nullable": true
+        },
+        {
+          "name": "lower",
+          "type": "number",
+          "description": "最小流量",
+          "nullable": true
+        },
+        {
+          "name": "upper",
+          "type": "number",
+          "description": "最大流量",
+          "nullable": true
+        },
+        {
+          "name": "conversion",
+          "type": "number",
+          "description": "输出输入比",
+          "nullable": true
+        }
+      ],
+      "key": [
+        "edge_id"
+      ],
+      "references": [],
+      "path": "data/edges.csv",
+      "row_count": 7,
+      "sha256": "e0ac71878e05d2938d171f3b1b16255af93c989fc67a8af72ed9224a1a2842ad"
+    },
+    {
+      "name": "meter_specs",
+      "description": "仪表绝对误差界与采样时长。",
+      "columns": [
+        {
+          "name": "meter_id",
+          "type": "string",
+          "description": "仪表",
+          "nullable": true
+        },
+        {
+          "name": "edge_id",
+          "type": "string",
+          "description": "对应流量",
+          "nullable": true
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "description": "单位",
+          "nullable": true
+        },
+        {
+          "name": "bound",
+          "type": "number",
+          "description": "绝对误差界",
+          "nullable": true
+        },
+        {
+          "name": "interval_h",
+          "type": "integer",
+          "description": "采样小时",
+          "nullable": true
+        }
+      ],
+      "key": [
+        "meter_id"
+      ],
+      "references": [
+        {
+          "column": "edge_id",
+          "target_table": "edges",
+          "target_column": "edge_id"
+        }
+      ],
+      "path": "data/meter_specs.csv",
+      "row_count": 5,
+      "sha256": "3874414a7553f9f3293aba8b915cd5c7b6e7ce467dfeb0e80c2195568f31ade6"
+    },
+    {
+      "name": "measurements",
+      "description": "多采样间隔观测，未强制凑成平衡。",
+      "columns": [
+        {
+          "name": "reading_id",
+          "type": "string",
+          "description": "读数",
+          "nullable": true
+        },
+        {
+          "name": "meter_id",
+          "type": "string",
+          "description": "仪表",
+          "nullable": true
+        },
+        {
+          "name": "start",
+          "type": "datetime",
+          "description": "区间开始",
+          "nullable": true
+        },
+        {
+          "name": "hours",
+          "type": "integer",
+          "description": "时长",
+          "nullable": true
+        },
+        {
+          "name": "value",
+          "type": "number",
+          "description": "观测量",
+          "nullable": true
+        },
+        {
+          "name": "available_at",
+          "type": "datetime",
+          "description": "可知时刻",
+          "nullable": true
+        }
+      ],
+      "key": [
+        "reading_id"
+      ],
+      "references": [
+        {
+          "column": "meter_id",
+          "target_table": "meter_specs",
+          "target_column": "meter_id"
+        }
+      ],
+      "path": "data/measurements.csv",
+      "row_count": 420,
+      "sha256": "935d6c32dc0f9048dbb76aed362b3d83e3fb23a15580bcf251c973b4e2e7ab48"
+    },
+    {
+      "name": "operations",
+      "description": "生产服务量、余热及改造状态。",
+      "columns": [
+        {
+          "name": "day",
+          "type": "date",
+          "description": "日期",
+          "nullable": true
+        },
+        {
+          "name": "load",
+          "type": "number",
+          "description": "装置负荷",
+          "nullable": true
+        },
+        {
+          "name": "service_t",
+          "type": "number",
+          "description": "产品服务量",
+          "nullable": true
+        },
+        {
+          "name": "waste_t",
+          "type": "number",
+          "description": "可回收汽量",
+          "nullable": true
+        },
+        {
+          "name": "retrofit",
+          "type": "boolean",
+          "description": "实际汽改电",
+          "nullable": true
+        },
+        {
+          "name": "maintenance",
+          "type": "boolean",
+          "description": "检修",
+          "nullable": true
+        },
+        {
+          "name": "available_at",
+          "type": "datetime",
+          "description": "可知时刻",
+          "nullable": true
+        }
+      ],
+      "key": [
+        "day"
+      ],
+      "references": [],
+      "path": "data/operations.csv",
+      "row_count": 60,
+      "sha256": "c343fe510457e7d7f0db3b1bae53341a9c139e3b4c330bad7f07020a08a10be7"
+    },
+    {
+      "name": "power",
+      "description": "电力边界和煤耗，backpressure_kwh_t 按通过背压机的汽量计。",
+      "columns": [
+        {
+          "name": "day",
+          "type": "date",
+          "description": "日期",
+          "nullable": true
+        },
+        {
+          "name": "import_kwh",
+          "type": "number",
+          "description": "购电",
+          "nullable": true
+        },
+        {
+          "name": "coal_t",
+          "type": "number",
+          "description": "购煤",
+          "nullable": true
+        },
+        {
+          "name": "backpressure_kwh_t",
+          "type": "number",
+          "description": "背压发电系数",
+          "nullable": true
+        },
+        {
+          "name": "device_kwh",
+          "type": "number",
+          "description": "设备电耗",
+          "nullable": true
+        }
+      ],
+      "key": [
+        "day"
+      ],
+      "references": [],
+      "path": "data/power.csv",
+      "row_count": 60,
+      "sha256": "c7f7f39715454885f5b4eefddc4feae39987168b9838d3538576c07d2014f026"
+    },
+    {
+      "name": "proposals",
+      "description": "业务方案与设备作用假设；收益尚未计算。",
+      "columns": [
+        {
+          "name": "proposal_id",
+          "type": "string",
+          "description": "方案",
+          "nullable": true
+        },
+        {
+          "name": "compressor_count",
+          "type": "integer",
+          "description": "改造设备数",
+          "nullable": true
+        },
+        {
+          "name": "steam_reduction_t",
+          "type": "number",
+          "description": "设备侧减汽",
+          "nullable": true
+        },
+        {
+          "name": "electric_add_kwh",
+          "type": "number",
+          "description": "设备侧增电",
+          "nullable": true
+        },
+        {
+          "name": "recovery_change_t",
+          "type": "number",
+          "description": "余热可回收变化",
+          "nullable": true
+        }
+      ],
+      "key": [
+        "proposal_id"
+      ],
+      "references": [],
+      "path": "data/proposals.csv",
+      "row_count": 3,
+      "sha256": "b55f95124cac0e0bfda3c6e764a9652178dec0fd320f762dabbde36dfd3e28a8"
+    },
+    {
+      "name": "external",
+      "description": "购能价格、排放因子和服务价值约定。",
+      "columns": [
+        {
+          "name": "scenario",
+          "type": "string",
+          "description": "外部假设",
+          "nullable": true
+        },
+        {
+          "name": "power_yuan_kwh",
+          "type": "number",
+          "description": "电价",
+          "nullable": true
+        },
+        {
+          "name": "coal_yuan_t",
+          "type": "number",
+          "description": "煤价",
+          "nullable": true
+        },
+        {
+          "name": "power_kg_kwh",
+          "type": "number",
+          "description": "购电排放",
+          "nullable": true
+        },
+        {
+          "name": "coal_kg_t",
+          "type": "number",
+          "description": "煤排放",
+          "nullable": true
+        }
+      ],
+      "key": [
+        "scenario"
+      ],
+      "references": [],
+      "path": "data/external.csv",
+      "row_count": 3,
+      "sha256": "10e6d21a1bb3af068d6cda5622195ea80554488f719c8d774b1a227349c29978"
+    },
+    {
+      "name": "supplement",
+      "description": "补测流量观测及证据可知时间。",
+      "columns": [
+        {
+          "name": "reading_id",
+          "type": "string",
+          "description": "补测",
+          "nullable": true
+        },
+        {
+          "name": "edge_id",
+          "type": "string",
+          "description": "连接",
+          "nullable": true
+        },
+        {
+          "name": "day",
+          "type": "date",
+          "description": "日期",
+          "nullable": true
+        },
+        {
+          "name": "value",
+          "type": "number",
+          "description": "吨",
+          "nullable": true
+        },
+        {
+          "name": "bound",
+          "type": "number",
+          "description": "误差界",
+          "nullable": true
+        },
+        {
+          "name": "available_at",
+          "type": "datetime",
+          "description": "可知时刻",
+          "nullable": true
+        }
+      ],
+      "key": [
+        "reading_id"
+      ],
+      "references": [
+        {
+          "column": "edge_id",
+          "target_table": "edges",
+          "target_column": "edge_id"
+        }
+      ],
+      "path": "data/supplement.csv",
+      "row_count": 2,
+      "sha256": "2fe235bf38adcccd7b2ea28d44f165bfc2c6f8fe54f4961775e0ea335b9b14f1"
+    }
+  ]
+}
