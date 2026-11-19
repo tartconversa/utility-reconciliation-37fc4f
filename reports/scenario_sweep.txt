@@ -1,0 +1,12 @@
+  scenario proposal_id      coal_status  delta_import_kwh_lo  delta_import_kwh_hi  delta_cost_yuan_lo  delta_cost_yuan_hi  delta_emission_kg_lo  delta_emission_kg_hi
+   central           A not_identifiable              1514.27              1732.21             1059.99             1212.55                878.28               1004.68
+   central           B not_identifiable              1014.27              1289.17              709.99              902.42                588.28                747.72
+   central          AB not_identifiable              2714.27              2898.90             1899.99             2029.23               1574.28               1681.36
+  low_grid           A not_identifiable              1514.27              1732.21             1059.99             1212.55                454.28                519.66
+  low_grid           B not_identifiable              1014.27              1289.17              709.99              902.42                304.28                386.75
+  low_grid          AB not_identifiable              2714.27              2898.90             1899.99             2029.23                814.28                869.67
+peak_price           A not_identifiable              1514.27              1732.21             1665.70             1905.43                878.28               1004.68
+peak_price           B not_identifiable              1014.27              1289.17             1115.70             1418.09                588.28                747.72
+peak_price          AB not_identifiable              2714.27              2898.90             2985.70             3188.79               1574.28               1681.36
+
+写入 /workspace/reports/scenario_sweep.csv
